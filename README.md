@@ -1,8 +1,47 @@
-# React + Vite
+# Proyecto E-commerce con React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una aplicación web de e-commerce desarrollada con React y Vite. La aplicación permite a los usuarios navegar por un catálogo de productos, ver detalles de productos individuales, agregar productos al carrito y realizar compras.
 
-Currently, two official plugins are available:
+## Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Listado y detalle de productos
+- Navegación entre categorías
+- Carrito de compras con estado global
+- Conexión a Firestore para almacenar productos y registrar compras
+- Renderizado condicional para mejorar la experiencia del usuario
+
+## Tecnologías utilizadas
+
+- React
+- React Router
+- Firebase Firestore
+- Context API para el manejo del estado global
+- CSS para el estilado
+
+## Instalación
+
+1. Clona el repositorio
+2. Instala las dependencias con `npm install`
+3. Inicia la aplicación con `npm start`
+
+## Configuración de Firebase
+
+Asegúrate de configurar Firebase con tus propias credenciales en el archivo `src/firebaseConfig.js`.
+
+## Estructura del proyecto
+
+```
+/src
+  /assets
+  /components
+  /context
+  /firebaseConfig.js
+  /App.jsx
+  /index.js
+  /App.css
+  /index.css
+```
+
+## Autor
+
+- [Tu Nombre](https://github.com/tu-usuario)
