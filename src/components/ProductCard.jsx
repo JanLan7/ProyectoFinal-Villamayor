@@ -6,12 +6,12 @@ export default function ProductCard({ product }) {
     <div style={styles.card}>
       <Link to={`/product/${product.id}`}>
         <img 
-          src={product.image.replace(/^'|'$/g, '')} 
-          alt={product.title.replace(/^'|'$/g, '')} 
+          src={product.image} 
+          alt={product.title} 
           style={styles.image}
           onError={(e) => { console.error("Error cargando la imagen:", e.target.src); }}
         />
-        <h3 style={styles.title}>{product.title.replace(/^'|'$/g, '')}</h3>
+        <h3 style={styles.title}>{product.title}</h3>
         <p style={styles.price}>${product.price}</p>
       </Link>
     </div>

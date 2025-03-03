@@ -14,11 +14,6 @@ export default function ItemDetailContainer() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const productData = docSnap.data();
-        // Elimina las comillas adicionales de los valores de cadena
-        productData.category = productData.category.replace(/^'|'$/g, '');
-        productData.description = productData.description.replace(/^'|'$/g, '');
-        productData.image = productData.image.replace(/^'|'$/g, '');
-        productData.title = productData.title.replace(/^'|'$/g, '');
         console.log("Producto obtenido:", productData);
         setProduct(productData);
       } else {
