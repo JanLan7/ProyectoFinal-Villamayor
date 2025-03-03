@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 
 export default function CheckoutForm() {
-  const { cart, clearCart, total } = useContext(CartContext);
+  const { cartItems, clearCart, totalPrice } = useContext(CartContext);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
@@ -15,8 +15,8 @@ export default function CheckoutForm() {
     e.preventDefault();
     const order = {
       buyer: { name, email, address },
-      items: cart,
-      total,
+      items: cartItems,
+      total: totalPrice,
       date: new Date()
     };
     const docRef = await addDoc(collection(db, 'orders'), order);

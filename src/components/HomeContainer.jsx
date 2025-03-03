@@ -14,11 +14,6 @@ export default function HomeContainer() {
       const querySnapshot = await getDocs(q);
       const data = querySnapshot.docs.map(doc => {
         const product = { id: doc.id, ...doc.data() };
-        // Elimina las comillas adicionales de los valores de cadena
-        product.category = product.category.replace(/^'|'$/g, '');
-        product.description = product.description.replace(/^'|'$/g, '');
-        product.image = product.image.replace(/^'|'$/g, '');
-        product.title = product.title.replace(/^'|'$/g, '');
         return product;
       });
       console.log("Productos obtenidos:", data);

@@ -1,81 +1,102 @@
 import { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
+import ErrorBoundary from './ErrorBoundary';
 
-export default function Cart() {
-  const { cart, removeItem, clearCart, total } = useContext(CartContext);
+function Cart() {
+    const { cartItems, removeItem, totalPrice } = useContext(CartContext);
 
-  if (cart.length === 0) return <div>El carrito está vacío</div>;
+    if (cartItems.length === 0) return <div style={styles.emptyCart}>El carrito está vacío</div>;
 
-  return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Carrito de Compras</h2>
-      <ul style={styles.list}>
-        {cart.map(item => (
-          <li key={item.id} style={styles.item}>
-            <img src={item.image} alt={item.title} style={styles.image} />
-            <div style={styles.info}>
-              <h3 style={styles.title}>{item.title}</h3>
-              <p style={styles.price}>${item.price}</p>
-              <p style={styles.quantity}>Cantidad: {item.quantity}</p>
-              <button onClick={() => removeItem(item.id)} style={styles.button}>Eliminar</button>
+    return (
+        <div style={styles.cartContainer}>
+            {cartItems.map((item, index) => (
+                <div key={index} style={styles.cartItem}>
+                    <img src={item.image} alt={item.title} style={styles.cartItemImage} />
+                    <div style={styles.cartItemInfo}>
+                        <h2 style={styles.cartItemTitle}>{item.title}</h2>
+                        <p style={styles.cartItemPrice}>${item.price}</p>
+                        <p style={styles.cartItemQuantity}>Cantidad: {item.quantity}</p>
+                        <button style={styles.removeButton} onClick={() => removeItem(item.id)}>Eliminar</button>
+                    </div>
+                </div>
+            ))}
+            <div style={styles.total}>
+                <h2>Total: ${totalPrice}</h2>
             </div>
-          </li>
-        ))}
-      </ul>
-      <div style={styles.total}>
-        <h3>Total: ${total}</h3>
-        <button onClick={clearCart} style={styles.button}>Vaciar Carrito</button>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }
 
 const styles = {
-  container: {
-    padding: '2rem',
-    maxWidth: '1200px',
-    margin: '0 auto'
-  },
-  title: {
-    textAlign: 'center',
-    color: '#2c3e50',
-    marginBottom: '2rem'
-  },
-  list: {
-    listStyle: 'none',
-    padding: 0
-  },
-  item: {
-    display: 'flex',
-    gap: '1rem',
-    marginBottom: '1rem'
-  },
-  image: {
-    width: '100px',
-    height: '100px',
-    objectFit: 'cover'
-  },
-  info: {
-    flex: 1
-  },
-  price: {
-    fontSize: '1.2rem',
-    color: '#27ae60'
-  },
-  quantity: {
-    fontSize: '1rem',
-    color: '#7f8c8d'
-  },
-  button: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#e74c3c',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer'
-  },
-  total: {
-    textAlign: 'center',
-    marginTop: '2rem'
-  }
+    cartContainer: {
+        padding: '2rem',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem'
+    },
+    emptyCart: {
+        padding: '2rem',
+        textAlign: 'center',
+        fontSize: '1.5rem',
+        color: '#7f8c8d'
+    },
+    cartItem: {
+        display: 'flex',
+        gap: '1rem',
+        padding: '1rem',
+        border: '1px solid #ecf0f1',
+        borderRadius: '8px',
+        alignItems: 'center'
+    },
+    cartItemImage: {
+        width: '100px',
+        height: '100px',
+        objectFit: 'cover',
+        borderRadius: '8px'
+    },
+    cartItemInfo: {
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.5rem'
+    },
+    cartItemTitle: {
+        fontSize: '1.2rem',
+        color: '#2c3e50'
+    },
+    cartItemPrice: {
+        fontSize: '1rem',
+        color: '#27ae60',
+        fontWeight: 'bold'
+    },
+    cartItemQuantity: {
+        fontSize: '1rem',
+        color: '#7f8c8d'
+    },
+    removeButton: {
+        backgroundColor: '#e74c3c',
+        color: 'white',
+        padding: '0.5rem 1rem',
+        border: 'none',
+        borderRadius: '4px',
+        fontSize: '0.9rem',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s'
+    },
+    total: {
+        textAlign: 'right',
+        fontSize: '1.5rem',
+        fontWeight: 'bold',
+        color: '#2c3e50'
+    }
 };
+
+export default function CartWithBoundary() {
+    return (
+        <ErrorBoundary>
+            <Cart />
+        </ErrorBoundary>
+    );
+}

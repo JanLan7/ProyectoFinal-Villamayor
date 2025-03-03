@@ -1,50 +1,80 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function ItemCount({ stock, initial, onAdd }) {
-  const [count, setCount] = useState(initial);
+    const [count, setCount] = useState(initial);
 
-  const handleIncrement = () => {
-    if (count < stock) {
-      setCount(count + 1);
-    }
-  };
+    useEffect(() => {
+        console.log('Stock value:', stock);
+    }, [stock]);
 
-  const handleDecrement = () => {
-    if (count > 1) {
-      setCount(count - 1);
-    }
-  };
+    const handleIncrement = () => {
+        console.log('Increment button clicked');
+        console.log('Current count:', count);
+        if (count < stock) {
+            setCount(count + 1);
+            console.log('New count:', count + 1);
+        } else {
+            console.error('Stock limit reached');
+        }
+    };
 
-  return (
-    <div style={styles.container}>
-      <button onClick={handleDecrement} style={styles.button}>-</button>
-      <span style={styles.count}>{count}</span>
-      <button onClick={handleIncrement} style={styles.button}>+</button>
-      <button onClick={() => onAdd(count)} style={styles.addButton}>Agregar al carrito</button>
-    </div>
-  );
+    const handleDecrement = () => {
+        console.log('Decrement button clicked');
+        console.log('Current count:', count);
+        if (count > 1) {
+            setCount(count - 1);
+            console.log('New count:', count - 1);
+        } else {
+            console.error('Minimum limit reached');
+        }
+    };
+
+    const handleAddToCart = () => {
+        console.log('Add to cart button clicked with count:', count);
+        onAdd(count);
+    };
+
+    return (
+        <div style={styles.container}>
+            <div style={styles.controls}>
+                <button onClick={handleDecrement} style={styles.button}>-</button>
+                <span style={styles.count}>{count}</span>
+                <button onClick={handleIncrement} style={styles.button}>+</button>
+            </div>
+            <button onClick={handleAddToCart} style={styles.addButton}>Agregar al carrito</button>
+        </div>
+    );
 }
 
 const styles = {
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1rem'
-  },
-  button: {
-    padding: '0.5rem 1rem',
-    fontSize: '1rem',
-    cursor: 'pointer'
-  },
-  count: {
-    fontSize: '1.5rem'
-  },
-  addButton: {
-    padding: '0.5rem 1rem',
-    backgroundColor: '#3498db',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer'
-  }
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '1rem'
+    },
+    controls: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem'
+    },
+    button: {
+        backgroundColor: '#3498db',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        padding: '0.5rem 1rem',
+        cursor: 'pointer'
+    },
+    count: {
+        fontSize: '1.5rem'
+    },
+    addButton: {
+        backgroundColor: '#27ae60',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        padding: '0.5rem 1rem',
+        cursor: 'pointer'
+    }
 };

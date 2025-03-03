@@ -44,4 +44,4 @@ Asegúrate de configurar Firebase con tus propias credenciales en el archivo `sr
 
 ## Autor
 
-- [Tu Nombre](https://github.com/tu-usuario)
+- [Tu Nombre](https://github.com/JanLan7)

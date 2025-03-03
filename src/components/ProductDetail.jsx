@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { CartContext } from '../context/CartContext';
+import ItemCount from './ItemCount';
 
 export default function ProductDetail() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
+    const [addedToCart, setAddedToCart] = useState(false);
+    const { addItem } = useContext(CartContext);
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -13,11 +17,7 @@ export default function ProductDetail() {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const productData = docSnap.data();
-                // Elimina las comillas adicionales de los valores de cadena
-                productData.category = productData.category.replace(/^'|'$/g, '');
-                productData.description = productData.description.replace(/^'|'$/g, '');
-                productData.image = productData.image.replace(/^'|'$/g, '');
-                productData.title = productData.title.replace(/^'|'$/g, '');
+                productData.id = docSnap.id; // Asegurarse de que el producto tenga un identificador único
                 console.log("Producto obtenido:", productData);
                 setProduct(productData);
             } else {
@@ -26,6 +26,12 @@ export default function ProductDetail() {
         };
         fetchProduct();
     }, [id]);
+
+    const handleAddToCart = (quantity) => {
+        console.log('Adding to cart:', product, quantity);
+        addItem(product, quantity); // Agrega la cantidad seleccionada del producto al carrito
+        setAddedToCart(true);
+    };
 
     if (!product) return <div>Cargando...</div>;
 
@@ -46,7 +52,11 @@ export default function ProductDetail() {
                 <p style={styles.category}>{product.category}</p>
                 <p style={styles.price}>${product.price}</p>
                 <p style={styles.description}>{product.description}</p>
-                <button style={styles.button}>Agregar al carrito</button>
+                {!addedToCart ? (
+                    <ItemCount stock={product.stock} initial={1} onAdd={handleAddToCart} />
+                ) : (
+                    <p>Producto agregado al carrito</p>
+                )}
             </div>
         </div>
     );
