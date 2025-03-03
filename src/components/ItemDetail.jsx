@@ -1,9 +1,13 @@
+import { useContext } from 'react';
 import ItemCount from './ItemCount';
+import { CartContext } from '../context/CartContext';
 
 export default function ItemDetail({ product }) {
+  const { addItem } = useContext(CartContext);
+
   const handleAddToCart = (quantity) => {
+    addItem(product, quantity);
     console.log(`Agregado ${quantity} ${product.title} al carrito`);
-    // Aquí puedes agregar la lógica para agregar el producto al carrito
   };
 
   return (
